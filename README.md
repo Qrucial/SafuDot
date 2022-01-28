@@ -6,7 +6,7 @@ Have fun playing! :)
 
 ### Workshop for Polkadot Hungary meetup
 
-1. We will use the Moonbeam alpha testnet, contract address is: 0x9ba385083e4a822CBf51a156f8D543F87b83DC4D
+1. We will use the Moonbeam alpha testnet, contract on blockchain explorer: https://moonbase-blockscout.testnet.moonbeam.network/tx/0x0a911f42052049c9b939fc86baccafa8f83c5e93c33ac10510f46effeb170c52
 2. Install MetaMask: https://metamask.io/
 3. Add Moonbase Alpha to MetaMask
     Moonbase Alpha RPC: https://moonbeam-alpha.api.onfinality.io/public
