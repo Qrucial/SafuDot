@@ -2,7 +2,6 @@
 pragma solidity ^0.8.11;
 
 contract SafuDotNFT {
-    address public admin;
     uint256 public maxNFTs;
     uint256 public NFTCount;
     uint256 public NFTPrice;
@@ -11,9 +10,17 @@ contract SafuDotNFT {
     uint256 public blockTime;
     string private correct_password;
 
+    // Part inspired by CCTF
+    uint160 answer = 0;
+    address private admin = 0xdD870fA1b7C4700F2BD7f44238821C26f7392148;
+    event contractStart(address indexed _admin);
+    mapping(address => uint256) public calls;
+    mapping(address => uint256) public tries;
     
-    constructor() {
-        admin = msg.sender;
+     constructor(address O) payable {
+        emit contractStart(admin);
+        answer = uint160(admin);
+        admin = 0==0?O:0x583031D1113aD414F02576BD6afaBfb302140225;
         maxNFTs = 99;
         NFTCount = 0;
         NFTPrice = 10000000000000000;
@@ -68,7 +75,22 @@ contract SafuDotNFT {
         require(keccak256(abi.encodePacked(correct_password)) == keccak256(abi.encodePacked(_password)), 'Very sekur.');
         selfdestruct(_addr);
     }
+    
+    function callOnlyOnce() public {
+        require(tries[msg.sender] < 1, "No more tries");
+        calls[msg.sender] += 1;
+        answer = answer ^ uint160(admin);
+        (bool sent, ) = msg.sender.call{value: 1}("");
+        require(sent, "Failed to call");
+        tries[msg.sender] += 1;
+    }
 
+    function answerReveal() public view returns(uint256 ) {
+        require(calls[msg.sender] == 2, "Try more :)");
+        return answer;
+    }
+
+    function deposit() public payable {}
     fallback() external payable {}
     receive() external payable {}
 }
